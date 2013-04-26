@@ -20,6 +20,12 @@ class ActionView::Helpers::FormBuilder
     radio_button_without_cancan(method, tag_value, options)    
   end
   alias_method_chain :radio_button, :cancan
+
+  def select_with_cancan(method, choices, options = {}, html_options = {})
+    html_options.merge!({:disabled => true}) unless (@template.can_edit? method.to_sym, @object)
+    select_without_cancan(method, choices, options, html_options)
+  end
+  alias_method_chain :select, :cancan
 end
 
 # password_field
@@ -35,4 +41,5 @@ end
 # phone_field
 # check_box
 # radio_button
+# select
 
